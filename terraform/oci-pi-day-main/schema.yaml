@@ -1,0 +1,70 @@
+## Copyright (c) 2022, Oracle and/or its affiliates.
+## All rights reserved. The Universal Permissive License (UPL), Version 1.0 as shown at http://oss.oracle.com/licenses/upl
+
+title: "Pi Day 2023 - Cloud Native App Dev"
+stackDescription: "This will deploy a simple virtual network, along with an Oracle Linux 8 Compute instance powered by Ampere A1 Flexible shapes" 
+schemaVersion: 1.1.0
+version: "0.0.1"
+locale: "en"
+
+#################
+# Variable Groups
+#################
+variableGroups:
+- title: "General Configuration"
+  visible: true  
+  variables:
+    - vcn_name
+    - vcn_cidr
+- title: "Security"
+  visible: true
+  variables:
+    - ssh_public_key
+- title: "Hidden variables"
+  visible: false
+  variables:
+    - tenancy_ocid
+    - instance_shape
+    - compartment_ocid
+    - region
+    
+######################
+# Variable Definitions
+######################
+variables:
+  compartment_ocid: 
+    type: oci:identity:compartment:id
+    title: "Compartment"
+    description: "The compartment in which to create resources"
+    required: true
+  region:
+    type: oci:identity:region:name
+    required: true
+    title: "Region"
+    description: "The region within which your resources will be created."
+  ssh_public_key:
+    type: oci:core:ssh:publickey
+    required: true
+    title: "SSH Public Key"
+    description: "The SSH key that will be used for remote access to your working compute instance."
+  instance_shape_config_ocpus:
+    type: enum
+    title: "Number of OCPU to assign to Compute Instance"
+    default: 4
+    enum:
+      - 2
+      - 4
+      - 8
+      - 16
+  instance_shape_config_memory_in_gbs:
+    type: enum
+    title: "Amount of RAM (in GB) allocated to your Compute Instance"
+    default: 12
+    enum:
+      - 8
+      - 12
+      - 16
+      - 20
+      - 24
+      - 28
+      - 32

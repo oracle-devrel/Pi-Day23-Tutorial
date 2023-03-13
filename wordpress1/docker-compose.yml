@@ -1,0 +1,42 @@
+version: "3"
+
+services:
+  wordpress:
+    restart: always
+    image: wordpress:6.1-apache
+    environment:
+      WORDPRESS_DB_HOST: 'db'
+      WORDPRESS_DB_USER: 'wordpress'
+      WORDPRESS_DB_PASSWORD: 'password1234'
+      WORDPRESS_DB_NAME: 'wordpress'
+    ports:
+      - 80:80
+    networks:
+      - external_network
+    volumes:
+      - ./wordpress:/var/www/html
+
+  db:
+    image: mysql/mysql-server:8.0
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'wordpress'
+      MYSQL_USER: 'wordpress'
+      MYSQL_PASSWORD: 'password1234'
+      MYSQL_ROOT_PASSWORD: 'password'
+    healthcheck:
+      test: "mysql $$MYSQL_DATABASE -u$$MYSQL_USER -p$$MYSQL_PASSWORD -e 'SELECT 1;'"
+      interval: 20s
+      timeout: 10s
+      retries: 5
+    networks:
+      - external_network
+    volumes:
+      - ./mysql/wordpress:/var/lib/mysql
+      - ./mysql/logs:/var/log/mysql
+      - ./mysql/initdb:/docker-entrypoint-initdb.d
+
+
+networks:
+  external_network:
+
