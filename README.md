@@ -84,7 +84,7 @@ sudo curl -L https://github.com/docker/compose/releases/download/v2.16.0/docker-
 5. Finally, we will install `git` and download the repository for today's session:
 ```
 sudo dnf install -y git
-git clone https://github.com/AmpereComputing/pi-day-tutorial
+git clone https://github.com/oracle-devrel/Pi-Day23-Tutorial
 ```
 
 We now have everything we need to get started! We will build up in stages.
